@@ -1,0 +1,11 @@
+name: DeepestWorld
+version: 0.0.0
+main: com.derongan.deepestworld.DeepestWorld
+api-version: '1.15'
+authors: [derongan]
+depend: [ProtocolLib]
+
+commands:
+  deeper:
+  window:
+  actual:

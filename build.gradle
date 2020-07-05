@@ -1,0 +1,57 @@
+buildscript {
+    repositories {
+        maven { url "https://plugins.gradle.org/m2/" }
+    }
+    dependencies {
+        classpath "com.github.jengelman.gradle.plugins:shadow:5.2.0"
+    }
+}
+
+plugins {
+    id 'java'
+}
+
+apply plugin: "com.github.johnrengelman.shadow"
+group = 'com.derongan.deepestworld'
+version = '0.0.0'
+
+java {
+    sourceCompatibility JavaVersion.VERSION_1_8
+    targetCompatibility JavaVersion.VERSION_1_8
+}
+
+repositories {
+    jcenter()
+    mavenCentral()
+    maven {
+        name = 'spigotmc-repo'
+        url = 'https://hub.spigotmc.org/nexus/content/repositories/snapshots/'
+    }
+    maven {
+        name = 'sonatype'
+        url = 'https://oss.sonatype.org/content/groups/public/'
+    }
+    maven { url "https://repo.dmulloy2.net/nexus/repository/public/" }
+}
+
+dependencies {
+    testCompile group: 'junit', name: 'junit', version: '4.13'
+    testCompile group: 'com.google.truth', name: 'truth', version: '1.0.1'
+    compileOnly 'org.spigotmc:spigot-api:1.15.2-R0.1-SNAPSHOT'
+    testCompile 'org.spigotmc:spigot-api:1.15.2-R0.1-SNAPSHOT'
+    compileOnly "org.spigotmc:spigot:1.15.2-R0.1-SNAPSHOT"
+    compileOnly group: "com.comphenix.protocol", name: "ProtocolLib", version: "4.5.0"
+    implementation 'net.bytebuddy:byte-buddy:1.10.12'
+    implementation 'net.bytebuddy:byte-buddy-agent:1.10.12'
+    compile "com.google.auto.value:auto-value-annotations:1.7.3"
+    annotationProcessor "com.google.auto.value:auto-value:1.7.3"
+    testCompile group: 'org.mockito', name: 'mockito-all', version: '1.10.19'
+}
+
+
+task copyJar(type: Copy) {
+    def plugin_path = project.findProperty("plugin_path")
+    inputs.property 'plugin_path', plugin_path
+    from shadowJar
+    into plugin_path
+}
